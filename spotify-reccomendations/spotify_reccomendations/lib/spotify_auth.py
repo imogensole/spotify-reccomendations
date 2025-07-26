@@ -20,14 +20,14 @@ class SpotifyAuth:
             scope="playlist-read-private user-top-read user-read-recently-played user-library-read",    
         )
     
-    def get_auth_url(self):
+    def auth_url(self) -> str:
         return self.sp_oauth.get_authorize_url()
 
-    def handle_auth_callback(self, code):
+    def handle_auth_callback(self, code) -> None:
         token_info = self.sp_oauth.get_access_token(code)
         session["token_info"] = token_info
 
-    def spotify_client(self):
+    def spotify_client(self) -> spotipy.Spotify:
         token_info = session.get("token_info", None)
 
         if not token_info:

@@ -8,6 +8,8 @@
                 margin: 0;
                 padding: 0;
                 background-color: #f5f5f5;
+                display: grid;
+                grid-template-columns: 250px 1fr;
                 min-height: 100vh;
             }
             
@@ -63,86 +65,104 @@
                 background-color: rgba(255,255,255,0.3);
             }
             
+            
             .main-content {
                 margin-left: 250px;
                 padding: 20px;
                 min-height: 100vh;
-                display: flex;
-                align-items: center;
-                justify-content: center;
+                display: grid;
+                grid-template-rows: auto 1fr;
+                gap: 30px;
                 box-sizing: border-box;
+                width: calc(100vw - 250px);
             }
             
-            .container {
+            .intro-content {
+                background: white;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                max-width: 600px;
+            }
+            
+            .top-tracks-container {
                 background: white;
                 padding: 40px;
                 border-radius: 10px;
                 box-shadow: 0 2px 10px rgba(0,0,0,0.1);
                 text-align: center;
-                max-width: 600px;
-                width: 100%;
+                width: 30%;
+            }
+
+            .top-tracks-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
             }
             
+            .top-track-card {
+                background: #f8f9fa;
+                padding: 15px;
+                border-radius: 8px;
+                text-align: center;
+                transition: transform 0.2s;
+            }
+            
+            .top-track-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            }
+            
+            .top-track-card img {
+                width: 120px;
+                height: 120px;
+                object-fit: cover;
+                border-radius: 6px;
+                margin-bottom: 10px;
+            }
+            
+            .top-track-card h3 {
+                margin: 8px 0 4px 0;
+                font-size: 14px;
+                color: #333;
+            }
+            
+            .top-track-card p {
+                margin: 0;
+                font-size: 12px;
+                color: #666;
+            }
+            
+            .intro-content img {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                object-fit: cover;
+                flex-shrink: 0;
+            }
+            
+            .intro-text {
+                flex: 1;
+            }
+            
+            .intro-text h1 {
+                margin: 0 0 10px 0;
+                font-size: 1.5em;
+            }
+
             h1 {
                 color: #1DB954;
                 margin-bottom: 30px;
             }
             
-            .spotify-btn {
-                background-color: #1DB954;
-                color: white;
-                padding: 15px 30px;
-                border: none;
-                border-radius: 25px;
-                font-size: 16px;
-                font-weight: bold;
-                cursor: pointer;
-                text-decoration: none;
-                display: inline-block;
-                transition: background-color 0.3s;
-            }
-            
-            .spotify-btn:hover {
-                background-color: #1ed760;
-            }
-            
-            .logout-btn {
-                background-color: #ff4444;
-                color: white;
-                padding: 10px 20px;
-                border: none;
-                border-radius: 20px;
-                font-size: 14px;
-                cursor: pointer;
-                text-decoration: none;
-                display: inline-block;
-                margin-top: 20px;
-            }
-            
-            .logout-btn:hover {
-                background-color: #cc0000;
-            }
-            
-            .status {
-                margin: 20px 0;
-                padding: 15px;
-                border-radius: 5px;
-            }
-            
-            .logged-in {
-                background-color: #d4edda;
-                color: #155724;
-                border: 1px solid #c3e6cb;
-            }
-            
-            .logged-out {
-                background-color: #f8d7da;
-                color: #721c24;
-                border: 1px solid #f5c6cb;
-            }
-            
-            /* Responsive design for mobile */
             @media (max-width: 768px) {
+                body {
+                    grid-template-columns: 1fr;
+                }
+                
                 .sidebar {
                     position: relative;
                     width: 100%;
@@ -151,7 +171,6 @@
                 
                 .main-content {
                     margin-left: 0;
-                    width: 100%;
                 }
             }
         </style>
@@ -163,8 +182,8 @@
             </div>
             <nav>
                 <ul class="sidebar-nav">
-                    <li><a href="{{ url_for('homepage') }}" class="active">🏠 Home</a></li>
-                    <li><a href="{{ url_for('your_music') }}">🎼 Your Music</a></li>
+                    <li><a href="{{ url_for('homepage') }}">🏠 Home</a></li>
+                    <li><a href="{{ url_for('your_music') }}" class="active">🎼 Your Music</a></li>
                     <li><a href="#">🎯 Recommendations</a></li>
                     <li><a href="#">📊 Analytics</a></li>
                     {% if session.get('token_info') %}
@@ -177,21 +196,24 @@
         </div>
         
         <div class="main-content">
-            <div class="container">
-                <h1>🎵 Welcome to Spotify Recommendations!</h1>
-                {% if session.get('token_info') %}
-                    <div class="status logged-in">
-                        ✅ You are logged in to Spotify! You can now get personalized recommendations.
-                    </div>
-                    <a href="{{ url_for('logout') }}" class="logout-btn">Logout from Spotify</a>
-                {% else %}
-                    <div class="status logged-out">
-                        🔒 Please log in to Spotify to get personalized music recommendations.
-                    </div>
-                    <a href="{{ url_for('login') }}" class="spotify-btn">
-                        🎵 Login with Spotify
-                    </a>
-                {% endif %}
+            <div class="intro-content">
+                <img src="{{profile_image}}" alt="Profile Image">
+                <div class="intro-text">
+                    <h1>Welcome {{display_name}}! This is your music...</h1>
+                </div>
+            </div>
+            
+            <div class="top-tracks-container">
+                <h2>Your Top Tracks</h2>
+                <div class="top-tracks-grid">
+                    {% for track in top_tracks%}
+                        <div class="top-track-card">
+                            <img src="{{track.cover_image}}" alt="Track Image">
+                            <h3>{{track.name}}</h3>
+                            <p>{{track.artist}}</p>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </body>
