@@ -70,7 +70,7 @@ View the demo here: https://youtu.be/UHozRJxkQaQ
 
 2. **Run the Flask app**
    ```bash
-   python -m spotify_reccomendations.spotify_reccomendations
+   poetry run flask run 
    ```
 
 3. **Open your browser**
