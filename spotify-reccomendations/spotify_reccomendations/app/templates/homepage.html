@@ -165,8 +165,7 @@
                 <ul class="sidebar-nav">
                     <li><a href="{{ url_for('homepage') }}" class="active">🏠 Home</a></li>
                     <li><a href="{{ url_for('your_music') }}">🎼 Your Music</a></li>
-                    <li><a href="#">🎯 Recommendations</a></li>
-                    <li><a href="#">📊 Analytics</a></li>
+                    <li><a href="{{ url_for('recommendations') }}">🎯 Recommendations</a></li>
                     {% if session.get('token_info') %}
                         <li><a href="{{ url_for('logout') }}">🚪 Logout</a></li>
                     {% else %}

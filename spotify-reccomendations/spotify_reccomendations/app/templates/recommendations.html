@@ -88,22 +88,35 @@
                 max-width: 600px;
             }
             
-            .top-tracks-container {
+            .content-layout {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+                align-items: start;
+            }
+            
+            .music-profile-container {
                 background: white;
                 padding: 40px;
                 border-radius: 10px;
                 box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-                text-align: center;
-                width: 30%;
-            }
-
-            .top-tracks-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-                gap: 20px;
             }
             
-            .top-track-card {
+            .recommendations-container {
+                background: white;
+                padding: 40px;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+
+            .recommendations-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 15px;
+                margin-top: 20px;
+            }
+            
+            .recommendation-card {
                 background: #f8f9fa;
                 padding: 15px;
                 border-radius: 8px;
@@ -111,28 +124,28 @@
                 transition: transform 0.2s;
             }
             
-            .top-track-card:hover {
+            .recommendation-card:hover {
                 transform: translateY(-2px);
                 box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             }
             
-            .top-track-card img {
-                width: 120px;
-                height: 120px;
+            .recommendation-card img {
+                width: 100px;
+                height: 100px;
                 object-fit: cover;
                 border-radius: 6px;
                 margin-bottom: 10px;
             }
             
-            .top-track-card h3 {
+            .recommendation-card h3 {
                 margin: 8px 0 4px 0;
-                font-size: 14px;
+                font-size: 12px;
                 color: #333;
             }
             
-            .top-track-card p {
+            .recommendation-card p {
                 margin: 0;
-                font-size: 12px;
+                font-size: 10px;
                 color: #666;
             }
             
@@ -158,6 +171,11 @@
                 margin-bottom: 30px;
             }
             
+            h2 {
+                color: #1DB954;
+                margin-bottom: 20px;
+            }
+            
             @media (max-width: 768px) {
                 body {
                     grid-template-columns: 1fr;
@@ -172,6 +190,10 @@
                 .main-content {
                     margin-left: 0;
                 }
+                
+                .content-layout {
+                    grid-template-columns: 1fr;
+                }
             }
         </style>
     </head>
@@ -183,8 +205,8 @@
             <nav>
                 <ul class="sidebar-nav">
                     <li><a href="{{ url_for('homepage') }}">🏠 Home</a></li>
-                    <li><a href="{{ url_for('your_music') }}" class="active">🎼 Your Music</a></li>
-                    <li><a href="{{ url_for('recommendations') }}">🎯 Recommendations</a></li>
+                    <li><a href="{{ url_for('your_music') }}">🎼 Your Music</a></li>
+                    <li><a href="{{ url_for('recommendations') }}" class="active">🎯 Recommendations</a></li>
                     {% if session.get('token_info') %}
                         <li><a href="{{ url_for('logout') }}">🚪 Logout</a></li>
                     {% else %}
@@ -202,16 +224,23 @@
                 </div>
             </div>
             
-            <div class="top-tracks-container">
-                <h2>Your Top Tracks</h2>
-                <div class="top-tracks-grid">
-                    {% for track in top_tracks%}
-                        <div class="top-track-card">
-                            <img src="{{track.cover_image}}" alt="Track Image">
-                            <h3>{{track.name}}</h3>
-                            <p>{{track.artist}}</p>
-                        </div>
-                    {% endfor %}
+            <div class="content-layout">
+                <div class="music-profile-container">
+                    <h2>Your Music Profile</h2>
+                    <p>{{music_profile}}</p>
+                </div>
+
+                <div class="recommendations-container">
+                    <h2>Your Recommendations</h2>
+                    <div class="recommendations-grid">
+                        {% for recommendation in music_recommendations %}
+                            <div class="recommendation-card">
+                                <img src="{{recommendation.cover_image}}" alt="Recommendation Image">
+                                <h3>{{recommendation.name}}</h3>
+                                <p>{{recommendation.artist}}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>

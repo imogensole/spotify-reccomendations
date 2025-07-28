@@ -6,14 +6,18 @@ authors = [
     {name = "Imogen Sole",email = "imogen@playerdata.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.12,<4.0"
 dependencies = [
     "flask (>=3.1.1,<4.0.0)",
     "spotipy (>=2.25.1,<3.0.0)",
     "openai (>=1.97.1,<2.0.0)",
     "python-dotenv (>=1.1.1,<2.0.0)",
     "black (>=25.1.0,<26.0.0)",
-    "polars (>=1.31.0,<2.0.0)"
+    "polars (>=1.31.0,<2.0.0)",
+    "langgraph (>=0.5.4,<0.6.0)",
+    "langchain (>=0.3.27,<0.4.0)",
+    "ipython (>=9.4.0,<10.0.0)",
+    "langchain-openai (>=0.3.28,<0.4.0)"
 ]
 
 
